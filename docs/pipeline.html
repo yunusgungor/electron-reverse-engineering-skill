@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electron RE Pipeline</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+  body { background: #0a0a1a; margin: 0; padding: 20px; display: flex; justify-content: center; }
+  .container { max-width: 1200px; width: 100%; }
+  h1 { color: #e94560; font-family: 'Segoe UI', sans-serif; font-size: 22px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🔬 Electron Reverse Engineering — Pipeline</h1>
+  <pre class="mermaid">
+flowchart TD
+    A["📦 Electron App"] --> B["📂 ASAR Extract"]
+    B --> C{"📄 .js.map var mı?"}
+    C -->|"✅ Evet"| D["✅ Orijinal Kod (source-map)"]
+    D --> P["🛠️ Değişiklik Yap"]
+    C -->|"❌ Hayır"| E{"Hangi Format?"}
+    E -->|webpack| F1["⚡ webcrack"]
+    E -->|obfuscator.io| F2["⚡ webcrack"]
+    E -->|minified| F3["✨ prettier + webcrack"]
+    E -->|.jsc| F4["🔬 Ghidra + ghidra_nodejs"]
+    E -->|eval| F5["🔧 de4js"]
+    F1 --> G{"Okunabilir?"}
+    F2 --> G
+    F3 --> G
+    F4 --> G
+    F5 --> G
+    G -->|"Hayır"| H["🧠 humanify (LLM rename)"]
+    G -->|"Evet"| P
+    H --> P
+    P --> Q["📦 Repack"]
+    Q --> R{"🔐 Integrity?"}
+    R -->|"Hayır"| Z["▶️ Çalıştır!"]
+    R -->|"Evet"| S["🔓 Bypass"]
+    S -->|macOS| T1["🍎 Info.plist"]
+    S -->|Win/Linux| T2["🐧 Binary Sed"]
+    S -->|Otomatik| T3["🤖 electron-app-patcher"]
+    T1 --> Z
+    T2 --> Z
+    T3 --> Z
+    Z --> V["✅ Runtime Doğrulama"]
+  </pre>
+</div>
+</body>
+</html>

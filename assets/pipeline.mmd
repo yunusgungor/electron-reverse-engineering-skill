@@ -1,0 +1,60 @@
+```mermaid
+flowchart TD
+    A["📦 Electron App (.app / .exe / .AppImage)"] --> B["📂 ASAR Extract<br/><code>npx asar extract app.asar ./src</code>"]
+    B --> C{"📄 .js.map var mı?"}
+    
+    C -->|"✅ Evet 🟢"| D["✅ %100 Orijinal Kod<br/><code>source-map</code> ile restore"]
+    D --> P["🛠️ Değişiklik Yap"]
+    
+    C -->|"❌ Hayır 🔶"| E{"Hangi Format?"}
+    
+    E -->|"webpackChunk"| F1["⚡ webcrack 🥇<br/>Bundle → Modules"]
+    E -->|"_0x... string'ler"| F2["⚡ webcrack<br/>Obfuscator.io Deobfuscate"]
+    E -->|"minified (tek satır)"| F3["✨ prettier + webcrack"]
+    E -->|".jsc dosyaları"| F4["🔬 Ghidra + ghidra_nodejs"]
+    E -->|"eval/packer"| F5["🔧 de4js"]
+    
+    F1 --> G{"Okunabilirlik<br/>Yeterli mi?"}
+    F2 --> G
+    F3 --> G
+    F4 --> G
+    F5 --> G
+    
+    G -->|"Hayır"| H["🧠 humanify<br/>LLM ile değişken isimlendirme"]
+    G -->|"Evet"| P
+    H --> P
+    
+    P --> Q["📦 Repack<br/><code>asar pack ./src app.asar</code>"]
+    Q --> R{"🔐 ASAR Integrity<br/>Kontrolü var mı?"}
+    
+    R -->|"Hayır"| Z["▶️ Çalıştır!"]
+    R -->|"Evet"| S["🔓 Bypass Yöntemi Seç"]
+    
+    S -->|"macOS"| T1["🍎 Info.plist Hash Update<br/><code>PlistBuddy</code>"]
+    S -->|"Win/Linux"| T2["🐧 Binary'de Sed<br/><code>sed 's/old/new/'</code>"]
+    S -->|"Otomatik"| T3["🤖 electron-app-patcher<br/>6 adımda otomatik"]
+    
+    T1 --> Z
+    T2 --> Z
+    T3 --> Z
+    
+    Z --> V["✅ RUNTIME DOĞRULAMA<br/><code>--remote-debugging-port=8315</code>"]
+    
+    style A fill:#1a1a2e,stroke:#e94560,color:#fff
+    style B fill:#0f3460,stroke:#a8d8ea,color:#fff
+    style C fill:#16213e,stroke:#e94560,color:#ff6b6b
+    style D fill:#1b4332,stroke:#2ecc71,color:#2ecc71
+    style P fill:#e94560,stroke:#fff,color:#fff
+    style Q fill:#533483,stroke:#a8d8ea,color:#fff
+    style Z fill:#1b4332,stroke:#2ecc71,color:#2ecc71
+    style V fill:#0f3460,stroke:#a8d8ea,color:#fff
+    style F1 fill:#0f3460,stroke:#4fc3f7,color:#fff
+    style F2 fill:#0f3460,stroke:#4fc3f7,color:#fff
+    style F3 fill:#0f3460,stroke:#4fc3f7,color:#fff
+    style F4 fill:#3a1a2e,stroke:#e94560,color:#fff
+    style F5 fill:#2a2a1e,stroke:#f0b27a,color:#fff
+    style H fill:#2a1a3e,stroke:#a8d8ea,color:#fff
+    style T1 fill:#1a1a3e,stroke:#6c63ff,color:#fff
+    style T2 fill:#1a2a1e,stroke:#2ecc71,color:#fff
+    style T3 fill:#1a2a2e,stroke:#4fc3f7,color:#fff
+```
